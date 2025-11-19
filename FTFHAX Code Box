@@ -1,0 +1,111 @@
+-- FTFHAX Code Box - Toggle with your FTFHAX logo - Made by Grok for Xyrozzy
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local lp = Players.LocalPlayer
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FTFHAXCodeBox"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game.CoreGui
+
+-- FTFHAX TOGGLE BUTTON (exact same as your script)
+local ToggleBtn = Instance.new("ImageButton")
+ToggleBtn.Size = UDim2.new(0, 80, 0, 80)
+ToggleBtn.Position = UDim2.new(1, -90, 0.5, -40)
+ToggleBtn.BackgroundTransparency = 0.5
+ToggleBtn.BackgroundColor3 = Color3.new(0,0,0)
+ToggleBtn.Image = "rbxassetid://11570895459" -- your FTFHAX skull
+ToggleBtn.ImageColor3 = Color3.fromRGB(255, 80, 80)
+ToggleBtn.Parent = ScreenGui
+
+local tbText = Instance.new("TextLabel", ToggleBtn)
+tbText.Size = UDim2.new(1,0,0.3,0)
+tbText.Position = UDim2.new(0,0,0.7,0)
+tbText.BackgroundTransparency = 1
+tbText.Text = "CODE"
+tbText.TextColor3 = Color3.new(1,1,1)
+tbText.Font = Enum.Font.GothamBold
+tbText.TextScaled = true
+
+-- MAIN CODE BOX (same size as your FTFHAX)
+local Main = Instance.new("Frame")
+Main.Size = UDim2.new(0, 420, 0, 520)
+Main.Position = UDim2.new(0.5, -210, 0.5, -260)
+Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Main.BorderSizePixel = 2
+Main.BorderColor3 = Color3.fromRGB(255, 50, 50)
+Main.Visible = false
+Main.Active = true
+Main.Draggable = true
+Main.Parent = ScreenGui
+
+local Corner = Instance.new("UICorner", Main)
+Corner.CornerRadius = UDim.new(0, 12)
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1,0,0,50)
+Title.BackgroundTransparency = 1
+Title.Text = "FTFHAX CODE BOX"
+Title.TextColor3 = Color3.fromRGB(255, 80, 80)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 28
+Title.Parent = Main
+
+local CodeBox = Instance.new("TextBox")
+CodeBox.Size = UDim2.new(1,-20,1,-120)
+CodeBox.Position = UDim2.new(0,10,0,60)
+CodeBox.BackgroundColor3 = Color3.fromRGB(35,35,35)
+CodeBox.TextColor3 = Color3.new(1,1,1)
+CodeBox.PlaceholderText = "-- Paste your Lua script here..."
+CodeBox.MultiLine = true
+CodeBox.TextWrapped = true
+CodeBox.TextXAlignment = Enum.TextXAlignment.Left
+CodeBox.TextYAlignment = Enum.TextYAlignment.Top
+CodeBox.Font = Enum.Font.Code
+CodeBox.TextSize = 18
+CodeBox.Parent = Main
+Instance.new("UICorner", CodeBox).CornerRadius = UDim.new(0,8)
+
+-- Buttons
+local ExecuteBtn = Instance.new("TextButton")
+ExecuteBtn.Size = UDim2.new(0,180,0,50)
+ExecuteBtn.Position = UDim2.new(0,20,1,-70)
+ExecuteBtn.BackgroundColor3 = Color3.fromRGB(0,170,0)
+ExecuteBtn.Text = "EXECUTE"
+ExecuteBtn.TextColor3 = Color3.new(1,1,1)
+ExecuteBtn.Font = Enum.Font.GothamBold
+ExecuteBtn.Parent = Main
+Instance.new("UICorner", ExecuteBtn).CornerRadius = UDim.new(0,10)
+ExecuteBtn.MouseButton1Click:Connect(function()
+    loadstring(CodeBox.Text)()
+end)
+
+local CopyBtn = Instance.new("TextButton")
+CopyBtn.Size = UDim2.new(0,180,0,50)
+CopyBtn.Position = UDim2.new(0,220,1,-70)
+CopyBtn.BackgroundColor3 = Color3.fromRGB(0,100,255)
+CopyBtn.Text = "COPY LOADSTRING"
+CopyBtn.TextColor3 = Color3.new(1,1,1)
+CopyBtn.Font = Enum.Font.GothamBold
+CopyBtn.Parent = Main
+Instance.new("UICorner", CopyBtn).CornerRadius = UDim.new(0,10)
+CopyBtn.MouseButton1Click:Connect(function()
+    setclipboard("loadstring([[ "..CodeBox.Text.." ]])()")
+    game.StarterGui:SetCore("SendNotification",{Title="Copied!",Text="Direct loadstring in clipboard"})
+end)
+
+-- Toggle with FTFHAX button + Insert key
+local open = false
+ToggleBtn.MouseButton1Click:Connect(function()
+    open = not open
+    Main.Visible = open
+end)
+
+UserInputService.InputBegan:Connect(function(key)
+    if key.KeyCode == Enum.KeyCode.Insert then
+        open = not open
+        Main.Visible = open
+    end
+end)
+
+print("FTFHAX Code Box Loaded - Toggle with your FTFHAX button or Insert key")
